@@ -53,12 +53,69 @@ def buscarProductoPorCodigo(codigo):
         if codigo >= 1 and codigo <= 4:  
             if codigo == 1:
                 print(producto1.detalleBreve())
+                print("Desea buscar otro producto?")
+                print("1. Si")
+                print("2. No")
+                opcion = input("Ingrese una opcion: ")
+                if opcion.isnumeric():
+                    opcion = int(opcion)
+                    if opcion == 1:
+                        return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
+                    elif opcion == 2:
+                        return validarOpciones()
+                    else:
+                        print("Opción incorrecta")
+                        print("Ingrese una opción valida del 1 al 2")
+                        return buscarProductoPorCodigo()
             elif codigo == 2:
                 print(producto2.detalleBreve())
+                print("Desea buscar otro producto?")
+                print("1. Si")
+                print("2. No")
+                opcion = input("Ingrese una opcion: ")
+                if opcion.isnumeric():
+                    opcion = int(opcion)
+                    if opcion == 1:
+                        return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
+                    elif opcion == 2:
+                        menuPrincipal()
+                        return funcionMenu(opcion=(input("Ingrese una opcion: ")))
+                    else:
+                        print("Opción incorrecta")
+                        print("Ingrese una opción valida del 1 al 2")
+                        return buscarProductoPorCodigo()                
             elif codigo == 3:
                 print(producto3.detalleBreve())
+                print("Desea buscar otro producto?")
+                print("1. Si")
+                print("2. No")
+                opcion = input("Ingrese una opcion: ")
+                if opcion.isnumeric():
+                    opcion = int(opcion)
+                    if opcion == 1:
+                        return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
+                    elif opcion == 2:
+                        return funcionMenu(opcion=(input("Ingrese una opcion: ")))
+                    else:
+                        print("Opción incorrecta")
+                        print("Ingrese una opción valida del 1 al 2")
+                        return buscarProductoPorCodigo()                
             elif codigo == 4:
                 print(producto4.detalleBreve())
+                print("Desea buscar otro producto?")
+                print("1. Si")
+                print("2. No")
+                opcion = input("Ingrese una opcion: ")
+                if opcion.isnumeric():
+                    opcion = int(opcion)
+                    if opcion == 1:
+                        return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
+                    elif opcion == 2:
+                        return funcionMenu(opcion=(input("Ingrese una opcion: ")))
+                    else:
+                        print("Opción incorrecta")
+                        print("Ingrese una opción valida del 1 al 2")
+                        return buscarProductoPorCodigo()                
         else:
             print("El código ingresado no se encuentra disponible")
     else:
