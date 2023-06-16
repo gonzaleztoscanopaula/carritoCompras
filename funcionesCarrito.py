@@ -14,12 +14,12 @@ class Productos:
     def buscarProductoPorCodigo(self):
         return f"El producto código: {self.codigo} = Nombre: {self.nombre} - Marca:{self.marca} - Precio:{self.precio} - Stock:{self.stock}"
     
-producto1 = Productos(1, "zapatillas", "new balance", 23000, 7, "negro", "zapatillas negras con inscripcion en blanco, todos los talles")
+producto1= Productos(1, "zapatillas", "new balance", 23000, 7, "negro", "zapatillas negras con inscripcion en blanco, todos los talles")
 producto2= Productos(2, "zapatillas", "adidas", 45000, 3, "Verdes", "Zapatillas verdes con suela roja, todos los talles")
 producto3= Productos(3, "zapatillas", "puma", 32000, 5, "blanco", "Zapatillas blancas con cordones celestes, todos los talles") 
 producto4= Productos(4, "ojotas", "new balance", 15000, 9, "azul", "Ojotas azules, con lineas blancas, todos los talles")   
  
-#funcion para Mostrar el menu principal
+#----------------------------1 funcion para Mostrar el menu principal
 def menuPrincipal():
     print("1. Mostrar productos en detalles")
     print("2. Mostrar informacón breve del producto")
@@ -27,26 +27,91 @@ def menuPrincipal():
     print("4. Realizar compra")
     print("5. Finalizar compra")
     print("6. Salir")
+    validarOpciones()
+
+
+#----------------------------2funcion para validar opciones ingresados en el menu principal
+def validarOpciones():
+    opcion = input("Ingrese una opcion: ")   
+    if opcion.isnumeric():
+        opcion = int(opcion)
+        if opcion >= 1 and opcion <= 6:
+            funcionMenu(opcion)     
+    else:
+        print("Opción incorrecta")
+        print("Ingrese una opción valida del 1 al 6")
+        return validarOpciones()
+        
+#----------------------------3 funcion del menu principal        
+def funcionMenu(opcion):
+    while opcion != 6:
+                if opcion == 1:
+                    print("-------------------------Mostrar productos en detalle-------------------------")
+                    return mostrarProductosEnDetalle()
+                elif opcion == 2:
+                    print("-------------------------Mostrar informacion breve-------------------------")
+                    return mostrarProductosBreve()
+                elif opcion == 3:
+                    print("-------------------------Buscar producto por codigo-------------------------")
+                    print("Los productos disponibles son:")
+                    print(producto1.detalleBreve())
+                    print(producto2.detalleBreve())
+                    print(producto3.detalleBreve())
+                    print(producto4.detalleBreve())                    
+                    return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
+                elif opcion == 4:
+                    print("-------------------------Realizar compra-------------------------")
+                    #realizarCompra()
+                else:
+                     print("-------------------------Finalizar compra-------------------------")
+                     #finalizarCompra()
 
 
 
-#funcion para mostrar productos en detalles
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#---------------------------------1funcion para mostrar productos en detalles
 def mostrarProductosEnDetalle():
+    print("1. Mostrar productos en detalles")
     print(producto1.detalleCompleto())
     print(producto2.detalleCompleto())
     print(producto3.detalleCompleto())
     print(producto4.detalleCompleto())
+    print("Presione enter para volver a menu principal")
+    input()
+    return menuPrincipal()
 
-#funcion para mostrar productos con detalle breve
+#----------------------------------2funcion para mostrar productos con detalle breve
 def mostrarProductosBreve():
+    print("2. Mostrar informacón breve del producto")
     print(producto1.detalleBreve())
     print(producto2.detalleBreve())
     print(producto3.detalleBreve())
     print(producto4.detalleBreve())
+    print("Presione enter para volver a menu principal")    
+    input()
+    return menuPrincipal()
 
 
 
-#funcion para buscar los productos por codigo
+#-------------------------------------3funcion para buscar los productos por codigo
 def buscarProductoPorCodigo(codigo):
     if codigo.isnumeric():
         codigo = int(codigo)
@@ -62,7 +127,7 @@ def buscarProductoPorCodigo(codigo):
                     if opcion == 1:
                         return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
                     elif opcion == 2:
-                        return validarOpciones()
+                        return menuPrincipal()
                     else:
                         print("Opción incorrecta")
                         print("Ingrese una opción valida del 1 al 2")
@@ -78,8 +143,7 @@ def buscarProductoPorCodigo(codigo):
                     if opcion == 1:
                         return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
                     elif opcion == 2:
-                        menuPrincipal()
-                        return funcionMenu(opcion=(input("Ingrese una opcion: ")))
+                        return menuPrincipal()
                     else:
                         print("Opción incorrecta")
                         print("Ingrese una opción valida del 1 al 2")
@@ -95,7 +159,7 @@ def buscarProductoPorCodigo(codigo):
                     if opcion == 1:
                         return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
                     elif opcion == 2:
-                        return funcionMenu(opcion=(input("Ingrese una opcion: ")))
+                        return menuPrincipal()
                     else:
                         print("Opción incorrecta")
                         print("Ingrese una opción valida del 1 al 2")
@@ -111,49 +175,18 @@ def buscarProductoPorCodigo(codigo):
                     if opcion == 1:
                         return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
                     elif opcion == 2:
-                        return funcionMenu(opcion=(input("Ingrese una opcion: ")))
+                        return menuPrincipal()
                     else:
                         print("Opción incorrecta")
                         print("Ingrese una opción valida del 1 al 2")
                         return buscarProductoPorCodigo()                
         else:
             print("El código ingresado no se encuentra disponible")
+            return buscarProductoPorCodigo()
     else:
         print("El código ingresado no es valido")
         return buscarProductoPorCodigo()
 
-#funcion para validar opciones ingresados en el menu principal
-def validarOpciones():
-    opcion = input("Ingrese una opcion: ")   
-    if opcion.isnumeric():
-        opcion = int(opcion)
-        if opcion >= 1 and opcion <= 6:
-            funcionMenu(opcion)     
-    else:
-        print("Opción incorrecta")
-        print("Ingrese una opción valida del 1 al 6")
-        return validarOpciones()
-        
-def funcionMenu(opcion):
-    while opcion != 6:
-                if opcion == 1:
-                    mostrarProductosBreve()
-                    print("-------------------------Mostrar productos en detalle-------------------------")
-                    return mostrarProductosEnDetalle()
-                elif opcion == 2:
-                    print("-------------------------Mostrar informacion breve-------------------------")
-                    return mostrarProductosBreve()
-                elif opcion == 3:
-                    mostrarProductosBreve()
-                    print("-------------------------Buscar producto por codigo-------------------------")
-                    return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
-                    print(buscarProductoPorCodigo(codigo))
-                elif opcion == 4:
-                    print("-------------------------Realizar compra-------------------------")
-                    #realizarCompra()
-                else:
-                     print("-------------------------Finalizar compra-------------------------")
-                     #finalizarCompra()
 
 
 #def realizarCompra():
