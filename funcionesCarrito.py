@@ -1,4 +1,4 @@
-
+carrito=[]
 class Productos:
     def __init__(self, codigo, nombre, marca, precio, stock, color, caracteristicas):
         self.codigo = codigo
@@ -20,10 +20,6 @@ producto2= Productos(2, "zapatillas", "adidas", 45000, 3, "Verdes", "Zapatillas 
 producto3= Productos(3, "zapatillas", "puma", 32000, 5, "blanco", "Zapatillas blancas con cordones celestes, todos los talles") 
 producto4= Productos(4, "ojotas", "new balance", 15000, 9, "azul", "Ojotas azules, con lineas blancas, todos los talles")   
 
-
-productosDisponibles=[producto1,producto2,producto3,producto4]
-
-
 #----------------------------1 funcion para Mostrar el menu principal
 def menuPrincipal():
     print("1. Mostrar productos en detalles")
@@ -36,12 +32,13 @@ def menuPrincipal():
     if opcion.isnumeric():
         opcion = int(opcion)
         if opcion >= 1 and opcion <= 6:
-            funcionMenu(opcion)     
+                funcionMenu(opcion)     
     else:
         print("Opción incorrecta")
         print("Ingrese una opción valida del 1 al 6")
         print("Presione enter para volver a menu principal")
         input()
+        return menuPrincipal()
 
         
 #----------------------------2 funcion del menu principal        
@@ -63,7 +60,12 @@ def funcionMenu(opcion):
                     return buscarProductoPorCodigo(codigo=(input("Ingrese el codigo del producto: ")))
                 elif opcion == 4:
                     print("-------------------------Realizar compra-------------------------")
-                    return realizarCompra()
+                    print("Los productos disponibles son:")
+                    print(producto1.detalleBreve())
+                    print(producto2.detalleBreve())
+                    print(producto3.detalleBreve())
+                    print(producto4.detalleBreve()) 
+                    return realizarCompra(codigo=(input("Ingrese el codigo del producto que desea comprar: ")))
                 else:
                      print("-------------------------Finalizar compra-------------------------")
                      #finalizarCompra()
@@ -179,83 +181,265 @@ def buscarProductoPorCodigo(codigo):
 #Realizar compra: Permite al usuario agregar productos al carrito de compras. 
 #Se generará un nuevo diccionario con el nombre del producto, la cantidad comprada, 
 #el precio unitario y el costo total por cada item añadido.
-def realizarCompra():
-    productosDisponibles=[producto1,producto2,producto3,producto4]
-    print("4.--------------------- A llenar el carrito de compras")
-    print("Los productos disponibles son:")
-    print(producto1.detalleBreve())
-    print(producto2.detalleBreve())
-    print(producto3.detalleBreve())
-    print(producto4.detalleBreve())
-    print("¿Desea comprar un producto?")
-    opcion=input("Ingrese 1 para comprar o 2 para salir: ")
-    if opcion.isnumeric():
-        opcion=int(opcion)
-        if opcion==1:
-            print("Ingrese el codigo del producto que desea comprar")
-            codigo=input("Ingrese el codigo del producto: ")
-            if codigo.isnumeric():
-                codigo=int(codigo)
-                if codigo >= 1 and codigo <= 4:
-                    if codigo==1:
-                        print(producto1.detalleBreve())
-                        cantidad=input("Ingrese la cantidad que desea comprar: ")
-                        if cantidad.isnumeric():
-                            cantidad=int(cantidad)
-                            if cantidad>=1 and cantidad<=producto1.cantidad:
-                                print("El producto se ha agregado al carrito de compras")
-                                print("¿Desea comprar otro producto?")
-                                print("1. Si")
-                                print("2. No")
-                                opcion=input("Ingrese 1 para comprar o 2 para salir: ")
-                                if opcion.isnumeric():
-                                    opcion=int(opcion)
-                                    if opcion==1:
-                                        return realizarCompra()
-                                    elif opcion==2:
-                                        return menuPrincipal()
-                                    else:
-                                        print("Opción incorrecta")
-                                        print("Ingrese una opción valida del 1 al 2")
-                                        return realizarCompra()
-                            else:
-                                print("La cantidad ingresada no es valida")
-                                print("Presione enter para volver a ingresar la cantidad")
+
+def realizarCompra(codigo):
+#4-Realizar compra: Permite al usuario agregar productos al carrito de compras. 
+#Se generará un nuevo diccionario con el nombre del producto, la cantidad comprada, 
+#el precio unitario y el costo total por cada item añadido.
+    if codigo.isnumeric():
+        codigo = int(codigo)
+        if codigo >= 1 and codigo <= 4:
+            if codigo == 1:
+                print(producto1.detalleBreve())
+                cantidad = input("Ingrese la cantidad que desea comprar: ")
+                if cantidad.isnumeric():
+                    cantidad = int(cantidad)
+                    if cantidad >= 1 and cantidad <= producto1.stock:
+                        print("El precio unitario es de: ", producto1.precio)
+                        print("El costo total es de: ", producto1.precio*cantidad)
+                        print("Desea agregar este producto al carrito?")
+                        print("1. Si, agregarlo a mi carrito")
+                        print("2. No, eliminarlo del carrito")
+                        opcion = input("Ingrese una opcion: ")
+                        if opcion.isnumeric():
+                            opcion = int(opcion)
+                            if opcion == 1:
+                                producto1.stock = producto1.stock - cantidad
+                                carrito = {producto1.nombre:{"marca":producto1.marca, "cantidad":cantidad, "precio unitario":producto1.precio, "costo total":producto1.precio*cantidad}}
+                                print("Los productos comprados son: ")
+                                print(carrito)
+                                print("Presione enter para volver al menu realizar compra")
                                 input()
                                 return realizarCompra()
-                        else:
-                            print("La cantidad ingresada no es valida")
-                            print("Presione enter para volver a ingresar la cantidad")
-                            input()
-                            return realizarCompra()
-                    elif codigo==2:
-                        print(producto2.detalleBreve())
-                        cantidad=input("Ingrese la cantidad que desea comprar: ")
-                        if cantidad.isnumeric():
-                            cantidad=int(cantidad)
-                            if cantidad>=1 and cantidad<=producto2.cantidad:
-                                print("El producto se ha agregado al carrito de compras")
-                                print("¿Desea comprar otro producto?")
+                            elif opcion == 2:
+                                print("Desea eliminar el producto del carrito?")
                                 print("1. Si")
                                 print("2. No")
-                                opcion=input("Ingrese 1 para comprar o 2 para salir: ")
+                                opcion = input("Ingrese una opcion: ")
                                 if opcion.isnumeric():
-                                    opcion=int(opcion)
-                                    if opcion==1:
-                                        return realizarCompra()
-                                    elif opcion==2:
+                                    producto1.stock = producto1.stock + cantidad
+                                    opcion = int(opcion)
+                                    if opcion == 1:
+                                        carrito.pop(producto1.nombre)
+                                        print("Los productos comprados son: ")
+                                        print(carrito)
+                                        print("Presione enter para volver al menu realizar compra")
+                                        input()
+                                        return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                                    elif opcion == 2:
+                                        print("Presione enter para volver al menu realizar compra")
                                         return menuPrincipal()
                                     else:
                                         print("Opción incorrecta")
                                         print("Ingrese una opción valida del 1 al 2")
-                                        return realizarCompra()
+                                        return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                                else: 
+                                    return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))    
                             else:
-                                print("La cantidad ingresada no es valida")
-                                print("Presione enter para volver")
-
-    print("Presione enter para volver a menu principal")
-    input()
-    return menuPrincipal()
+                                print("Opción incorrecta")
+                                print("Ingrese una opción valida del 1 al 2")
+                                return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                    else:
+                        print("La cantidad ingresada no se encuentra disponible")
+                        print("Presione enter para volver a ingresar la cantidad")
+                        input()
+                        return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                else:
+                    print("La cantidad ingresada no es valida")
+                    print("Presione enter para volver a ingresar la cantidad")
+                    input()
+                    return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+            elif codigo == 2:
+                print(producto2.detalleBreve())
+                cantidad = input("Ingrese la cantidad que desea comprar: ")
+                if cantidad.isnumeric():
+                    cantidad = int(cantidad)
+                    if cantidad >= 1 and cantidad <= producto2.stock:
+                        print("El precio unitario es de: ", producto2.precio)
+                        print("El costo total es de: ", producto2.precio*cantidad)
+                        print("Desea agregar este producto al carrito?")
+                        print("1. Si, agregarlo a mi carrito")
+                        print("2. No, eliminarlo del carrito")
+                        opcion = input("Ingrese una opcion: ")
+                        if opcion.isnumeric():
+                            opcion = int(opcion)
+                            if opcion == 1:
+                                producto2.stock = producto2.stock - cantidad
+                                carrito = {producto2.nombre:{"marca":producto2.marca, "cantidad":cantidad, "precio unitario":producto2.precio, "costo total":producto2.precio*cantidad}}
+                                print("Los productos comprados son: ")
+                                print(carrito)
+                                print("Presione enter para volver al menu realizar compra")
+                                input()
+                                return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                            elif opcion == 2:
+                                print("Desea eliminar el producto del carrito?")
+                                print("1. Si")
+                                print("2. No")
+                                opcion = input("Ingrese una opcion: ")
+                                if opcion.isnumeric():
+                                    producto2.stock = producto2.stock + cantidad
+                                    opcion = int(opcion)
+                                    if opcion == 1:
+                                        carrito.pop(producto2.nombre)
+                                        print("Los productos comprados son: ")
+                                        print(carrito)
+                                        print("Presione enter para volver al menu realizar compra")
+                                        input()
+                                        return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                                    elif opcion == 2:
+                                        print("Presione enter para volver al menu realizar compra")
+                                        return menuPrincipal()
+                                    else:
+                                        print("Opción incorrecta")
+                                        print("Ingrese una opción valida del 1 al 2")
+                                        return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                                else: 
+                                    return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))    
+                            else:
+                                print("Opción incorrecta")
+                                print("Ingrese una opción valida del 1 al 2")
+                                return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                    else:
+                        print("La cantidad ingresada no se encuentra disponible")
+                        print("Presione enter para volver a ingresar la cantidad")
+                        input()
+                        return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                else:
+                    print("La cantidad ingresada no es valida")
+                    print("Presione enter para volver a ingresar la cantidad")
+                    input()
+                    return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+            elif codigo == 3:
+                print(producto3.detalleBreve())
+                cantidad = input("Ingrese la cantidad que desea comprar: ")
+                if cantidad.isnumeric():
+                    cantidad = int(cantidad)
+                    if cantidad >= 1 and cantidad <= producto3.stock:
+                        print("El precio unitario es de: ", producto3.precio)
+                        print("El costo total es de: ", producto3.precio*cantidad)
+                        print("Desea agregar este producto al carrito?")
+                        print("1. Si, agregarlo a mi carrito")
+                        print("2. No, eliminarlo del carrito")
+                        opcion = input("Ingrese una opcion: ")
+                        if opcion.isnumeric():
+                            opcion = int(opcion)
+                            if opcion == 1:
+                                producto3.stock = producto3.stock - cantidad
+                                carrito = {producto3.nombre:{"marca":producto3.marca, "cantidad":cantidad, "precio unitario":producto3.precio, "costo total":producto3.precio*cantidad}}
+                                print("Los productos comprados son: ")
+                                print(carrito)
+                                print("Presione enter para volver al menu realizar compra")
+                                input()
+                                return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                            elif opcion == 2:
+                                print("Desea eliminar el producto del carrito?")
+                                print("1. Si")
+                                print("2. No")
+                                opcion = input("Ingrese una opcion: ")
+                                if opcion.isnumeric():
+                                    producto3.stock = producto3.stock + cantidad
+                                    opcion = int(opcion)
+                                    if opcion == 1:
+                                        carrito.pop(producto3.nombre)
+                                        print("Los productos comprados son: ")
+                                        print(carrito)
+                                        print("Presione enter para volver al menu realizar compra")
+                                        input()
+                                        return realizarCompra(codigo=(input("Ingrese el codigo del producto que quiere comprar: ")))
+                                    elif opcion == 2:
+                                        print("Presione enter para volver al menu realizar compra")
+                                        return menuPrincipal()
+                                    else:
+                                        print("Opción incorrecta")
+                                        print("Ingrese una opción valida del 1 al 2")
+                                        return realizarCompra(codigo=(input("Ingrese el codigo del producto que quiere comprar: ")))
+                                else: 
+                                    return realizarCompra(codigo=(input("Ingrese el codigo del producto que quiere comprar: ")))    
+                            else:
+                                print("Opción incorrecta")
+                                print("Ingrese una opción valida del 1 al 2")
+                                return realizarCompra(codigo=(input("Ingrese el codigo del producto que quiere comprar: ")))
+                    else:
+                        print("La cantidad ingresada no se encuentra disponible")
+                        print("Presione enter para volver a ingresar la cantidad")
+                        input()
+                        return realizarCompra(codigo=(input("Ingrese el codigo del producto que quiere comprar: ")))
+                else:
+                    print("La cantidad ingresada no es valida")
+                    print("Presione enter para volver a ingresar la cantidad")
+                    input()
+                    return realizarCompra(codigo=(input("Ingrese el codigo del producto que quiere comprar: ")))
+            elif codigo == 4:
+                print(producto4.detalleBreve())
+                cantidad = input("Ingrese la cantidad que desea comprar: ")
+                if cantidad.isnumeric():
+                    cantidad = int(cantidad)
+                    if cantidad >= 1 and cantidad <= producto4.stock:
+                        print("El precio unitario es de: ", producto4.precio)
+                        print("El costo total es de: ", producto4.precio*cantidad)
+                        print("Desea agregar este producto al carrito?")
+                        print("1. Si, agregarlo a mi carrito")
+                        print("2. No, eliminarlo del carrito")
+                        opcion = input("Ingrese una opcion: ")
+                        if opcion.isnumeric():
+                            opcion = int(opcion)
+                            if opcion == 1:
+                                producto2.stock = producto4.stock - cantidad
+                                carrito = {producto4.nombre:{"marca":producto4.marca, "cantidad":cantidad, "precio unitario":producto4.precio, "costo total":producto4.precio*cantidad}}
+                                print("Los productos comprados son: ")
+                                print(carrito)
+                                print("Presione enter para volver al menu realizar compra")
+                                input()
+                                return realizarCompra(codigo=(input("Ingrese el codigo del producto que quiere comprar: ")))
+                            elif opcion == 2:
+                                print("Desea eliminar el producto del carrito?")
+                                print("1. Si")
+                                print("2. No")
+                                opcion = input("Ingrese una opcion: ")
+                                if opcion.isnumeric():
+                                    producto4.stock = producto4.stock + cantidad
+                                    opcion = int(opcion)
+                                    if opcion == 1:
+                                        carrito.pop(producto4.nombre)
+                                        print("Los productos comprados son: ")
+                                        print(carrito)
+                                        print("Presione enter para volver al menu realizar compra")
+                                        input()
+                                        return realizarCompra(codigo=(input("Ingrese el codigo del producto que quiere comprar: ")))
+                                    elif opcion == 2:
+                                        print("Presione enter para volver al menu realizar compra")
+                                        return menuPrincipal()
+                                    else:
+                                        print("Opción incorrecta")
+                                        print("Ingrese una opción valida del 1 al 2")
+                                        return realizarCompra(codigo=(input("Ingrese el codigo del producto: ")))
+                                else: return realizarCompra(codigo=(input("Ingrese el codigo del producto que quiere comprar: ")))    
+                            else:
+                                print("Opción incorrecta")
+                                print("Ingrese una opción valida del 1 al 2")
+                                return realizarCompra()
+                    else:
+                        print("La cantidad ingresada no se encuentra disponible")
+                        print("Presione enter para volver a ingresar la cantidad")
+                        input()
+                        return realizarCompra()
+                else:
+                    print("La cantidad ingresada no es valida")
+                    print("Presione enter para volver a ingresar la cantidad")
+                    input()
+                    return realizarCompra()
+        else:
+            print("El código ingresado no es valido")
+            print("Presione enter para volver a ingresar el codigo")
+            input()        
+            return realizarCompra()       
+    else:
+        print("El código ingresado no es valido")
+        print("Presione enter para volver a ingresar el codigo")
+        input()        
+        return realizarCompra()    
+        
+    
 
 
 
