@@ -1,4 +1,4 @@
-import datetime
+
 class Productos:
     def __init__(self, codigo, nombre, marca, precio, stock, color, caracteristicas):
         self.codigo = codigo
