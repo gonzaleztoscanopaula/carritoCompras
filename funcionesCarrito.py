@@ -223,7 +223,7 @@ def finalizarCompra():
         print("Los productos comprados son:")  
         imprimirDiccionario(compras)
         total = sum(compra["costo_total"] for compra in compras.values())
-        print("El total de la compra es:", total)    
+        print("El total de la compra es:", float(total))    
     while True:
         print("Desea finalizar la compra?")
         print("1. Sí")
